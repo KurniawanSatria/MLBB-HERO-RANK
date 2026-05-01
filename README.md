@@ -1,10 +1,10 @@
-## HERO DENGAN WIN RATE TERTINGI 
+## WIN RATE
 ![WIN RATE](rank-by-winrate.png)
 
 ---
-## HERO DENGAN PICK RATE TERTINGI 
+## PICK RATE
 ![PICK RATE](rank-by-pick.png)
 
 ---
-## HERO DENGAN BAN RATE TERTINGI 
+## BAN RATE
 ![BAN RATE](rank-by-ban.png)
