@@ -11,16 +11,20 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
-        uses: actions/checkout@v4
+      - uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - name: Debug structure
-        run: ls -R
+      - run: npm install
 
-      - name: Run script
-        run: npm install && node index.js
+      - run: node index.js
+
+      - name: Commit images
+        run: |
+          git config --global user.name "github-actions"
+          git config --global user.email "github-actions@users.noreply.github.com"
+          git add *.png
+          git commit -m "update images" || echo "no changes"
+          git push
