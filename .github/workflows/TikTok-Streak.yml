@@ -22,11 +22,5 @@ jobs:
       - name: Debug structure
         run: ls -R
 
-      - name: Create cookies.json
-        run: |
-          cat <<EOF > cookies.json
-          ${{ secrets.COOKIES_JSON }}
-          EOF
-
       - name: Run script
         run: npm install && node index.js
