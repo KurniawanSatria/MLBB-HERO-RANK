@@ -2,6 +2,7 @@
   "name": "automation",
   "version": "1.0.0",
   "description": "- Node.js v16+\r - Puppeteer\r - Kleur",
+  "type": "module",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
@@ -18,9 +19,6 @@
   },
   "homepage": "https://github.com/KurniawanSatria/TikTok-Streak#readme",
   "dependencies": {
-    "figlet": "^1.11.0",
-    "fs": "^0.0.1-security",
-    "kleur": "^4.1.5",
-    "puppeteer-core": "^24.42.0"
+    "puppeteer": "latest"
   }
 }
