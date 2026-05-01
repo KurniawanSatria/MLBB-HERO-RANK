@@ -2,8 +2,7 @@ name: Run Node Cron
 
 on:
   schedule:
-    - cron: "0 15 * * *"
-    - cron: "0 17 * * *"
+    - cron: "0 00 * * *"
   workflow_dispatch:
 
 permissions:
