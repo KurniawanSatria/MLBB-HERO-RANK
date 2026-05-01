@@ -1,7 +1,9 @@
 import puppeteer from 'puppeteer';
 
+const delay = ms => new Promise(r => setTimeout(r, ms));
+
 const browser = await puppeteer.launch({
-  executablePath: '/usr/bin/chromium-browser',
+ // executablePath: '/usr/bin/chromium-browser',
   headless: true,
   args: ['--no-sandbox', '--disable-setuid-sandbox']
 });
@@ -39,9 +41,9 @@ async function clickTwice(text) {
         .find(e => e.textContent.includes(t));
       el?.click();
     }, text);
-    await page.waitForTimeout(700);
+    await delay(700);
   }
-  await page.waitForTimeout(1200);
+  await delay(1200);
 }
 
 // BAN RATE
