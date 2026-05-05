@@ -68,9 +68,10 @@ console.log(`📎 ${img.label}`);
 
 const res = await fetch(`${WEBHOOK_URL}?with_components=true`, {
 method: 'POST',
-body: form,
-headers: form.getHeaders()
+body: form.getBuffer(),       
+headers: form.getHeaders()   
 });
+
 
 if (!res.ok) throw new Error(`Discord error: ${res.status} — ${await res.text()}`);
 console.log('✅ Sent to Discord!');
