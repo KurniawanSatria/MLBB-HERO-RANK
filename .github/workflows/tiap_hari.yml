@@ -16,9 +16,9 @@ jobs:
 
       - run: npm install
 
-      - run: node scraper.js
+      - run: node src/scraper.js
 
       - name: Send to Discord
         env:
           WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
-        run: node discord.js
+        run: node src/discord.js
