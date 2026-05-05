@@ -1,27 +1,22 @@
 name: Run Node Cron
-
 on:
   schedule:
     - cron: "0 00 * * *"
   workflow_dispatch:
-
 permissions:
   contents: write
-
 jobs:
   run-script:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 18
 
-      - run: npm install form-data node-fetch
+      - run: npm install
 
-      - run: node index.js
+      - run: node scraper.js
 
       - name: Commit images
         run: |
@@ -30,3 +25,8 @@ jobs:
           git add *.png
           git commit -m "update images" || echo "no changes"
           git push
+
+      - name: Send to Discord
+        env:
+          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+        run: node discord.js
