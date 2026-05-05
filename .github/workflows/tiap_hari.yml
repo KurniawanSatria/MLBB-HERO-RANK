@@ -19,7 +19,7 @@ jobs:
         with:
           node-version: 18
 
-      - run: npm install
+      - run: npm install form-data node-fetch
 
       - run: node index.js
 
