@@ -20,6 +20,6 @@
   "homepage": "https://github.com/KurniawanSatria/MLBB-HERO-RANK#readme",
   "dependencies": {
     "puppeteer": "latest",
-    "form-data": "latest",
+    "form-data": "latest"
   }
 }
