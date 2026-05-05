@@ -36,7 +36,7 @@ await delay(1000); // Tunggu list muncul
 // 2. Klik opsi "Mythical Glory+"
 await page.evaluate(() => {
     const items = [...document.querySelectorAll('.mt-list-item')];
-    const target = items.find(el => el.textContent.includes('Mythical Glory'));
+    const target = items.find(el => el.textContent.includes('Mythical Glory+'));
     if (target) target.click();
 });
 await delay(1500); // Tunggu data reload
