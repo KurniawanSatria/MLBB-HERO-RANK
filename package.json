@@ -1,0 +1,25 @@
+{
+  "name": "mlbb-hero-rank",
+  "version": "1.0.0",
+  "description": "Create By Saturia.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/KurniawanSatria/MLBB-HERO-RANK.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/KurniawanSatria/MLBB-HERO-RANK/issues"
+  },
+  "homepage": "https://github.com/KurniawanSatria/MLBB-HERO-RANK#readme",
+  "dependencies": {
+    "puppeteer": "latest",
+    "form-data": "latest",
+  }
+}
