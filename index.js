@@ -82,13 +82,21 @@ await browser.close();
 
 async function uploadToDiscordCDN(filePath) {
     const form = new FormData();
-    const blob = new Blob([fs.readFileSync(filePath)], { type: 'image/png' });
-    form.append('file', blob, filePath);
+    // FIX: Gunakan Buffer langsung, bukan Blob
+    form.append('file', fs.readFileSync(filePath), {
+        filename: filePath,
+        contentType: 'image/png'
+    });
     
     const response = await fetch(`${WEBHOOK_URL}?wait=true`, {
         method: 'POST',
         body: form
     });
+    
+    if (!response.ok) {
+        const text = await response.text();
+        throw new Error(`Upload failed: ${response.status} - ${text}`);
+    }
     
     const data = await response.json();
     return data.attachments[0].url; // URL gambar di Discord CDN
