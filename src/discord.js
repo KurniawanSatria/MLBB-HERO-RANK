@@ -10,19 +10,19 @@ const WEBHOOKS = {
 const data = [
   {
     key: 'winrate',
-    title: '🏆 Win Rate',
+    title: 'Win Rate',
     icon: '<:trophy:1523775943792001205>',
     file: 'rank-by-winrate.png'
   },
   {
     key: 'pickrate',
-    title: '🎯 Pick Rate',
+    title: 'Pick Rate',
     icon: '<:target:1523776778856824953>',
     file: 'rank-by-pick.png'
   },
   {
     key: 'banrate',
-    title: '🚫 Ban Rate',
+    title: 'Ban Rate',
     icon: '<:prohibited:1523776846553022464>',
     file: 'rank-by-ban.png'
   }
