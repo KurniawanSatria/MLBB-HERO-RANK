@@ -18,29 +18,13 @@ await page.goto('https://www.mobilelegends.com/rank', {
   waitUntil: 'domcontentloaded'
 });
 
-for (let i = 0; i < 20; i++) {
-  const closeBtn = await page.$('.mt-cb-policy-close');
-  const acceptBtn = await page.$('#mt-cb-s');
+  try {
+    await page.locator(".mt-cb-policy-close").click({ timeout: 3000 });
+  } catch {}
 
-  if (closeBtn) {
-    await closeBtn.click().catch(() => {});
-    break;
-  }
-
-  if (acceptBtn) {
-    await acceptBtn.click().catch(() => {});
-    break;
-  }
-
-  await delay(500);
-}
-
-await page.waitForFunction(() => {
-  return !document.querySelector('.mt-cb-policy') &&
-         !document.querySelector('.mt-cb-policy-close');
-}, {
-  timeout: 10000
-}).catch(() => {});
+  try {
+    await page.locator("#mt-cb-s").click({ timeout: 3000 });
+  } catch {}
 
 await page.waitForSelector('.mt-list-layout', {
   visible: true,
