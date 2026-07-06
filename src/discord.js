@@ -53,14 +53,10 @@ async function sendRank(item) {
         components: [
           {
             type: 10,
-            content: `## ${item.icon} MLBB Hero Rank — Mythical Glory+\n-# <:calendar:1523776798918447115> ${timeString}`
+            content: `## ${item.icon} ${item.title}\n-# <:calendar:1523776798918447115> ${timeString}`
           },
           {
             type: 14
-          },
-          {
-            type: 10,
-            content: `### ${item.icon} ${item.title}`
           },
           {
             type: 12,
