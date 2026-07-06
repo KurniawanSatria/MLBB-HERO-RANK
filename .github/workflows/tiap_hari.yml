@@ -20,5 +20,7 @@ jobs:
 
       - name: Send to Discord
         env:
-          WEBHOOK_URL: ${{ secrets.WEBHOOK_URL }}
+          WEBHOOK_WINRATE: ${{ secrets.WEBHOOK_WINRATE }}
+          WEBHOOK_PICKRATE: ${{ secrets.WEBHOOK_PICKRATE }}
+          WEBHOOK_BANRATE: ${{ secrets.WEBHOOK_BANRATE }}
         run: node src/discord.js
