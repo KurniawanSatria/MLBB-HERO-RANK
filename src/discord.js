@@ -30,19 +30,11 @@ components: [
 type: 17,
 components: [
 { type: 10, content: `### <:target:1523776778856824953> Pick Rate` },
-{ type: 12, items: [{ media: { url: `attachment://${screenshots[2].path}` } }] }
-]
-},
-{
-type: 17,
-components: [
+{ type: 12, items: [{ media: { url: `attachment://${screenshots[2].path}` } }] },
+{ type: 14 },
 { type: 10, content: `### <:trophy:1523775943792001205> Win Rate` },
-{ type: 12, items: [{ media: { url: `attachment://${screenshots[0].path}` } }] }
-]
-},
-{
-type: 17,
-components: [
+{ type: 12, items: [{ media: { url: `attachment://${screenshots[0].path}` } }] },
+{ type: 14 },
 { type: 10, content: `### <:prohibited:1523776846553022464> Ban Rate` },
 { type: 12, items: [{ media: { url: `attachment://${screenshots[1].path}` } }] }
 ]
