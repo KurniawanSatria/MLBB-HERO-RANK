@@ -1,72 +1,121 @@
 import fs from 'fs';
 import FormData from 'form-data';
 
-const WEBHOOK_URL = process.env.WEBHOOK_URL;
+const WEBHOOKS = {
+  winrate: process.env.WEBHOOK_WINRATE,
+  pickrate: process.env.WEBHOOK_PICKRATE,
+  banrate: process.env.WEBHOOK_BANRATE,
+};
 
-const screenshots = [
-{ label: 'Win Rate',  path: 'rank-by-winrate.png' },
-{ label: 'Ban Rate',  path: 'rank-by-ban.png' },
-{ label: 'Pick Rate', path: 'rank-by-pick.png' },
+const data = [
+  {
+    key: 'winrate',
+    title: '🏆 Win Rate',
+    icon: '<:trophy:1523775943792001205>',
+    file: 'rank-by-winrate.png'
+  },
+  {
+    key: 'pickrate',
+    title: '🎯 Pick Rate',
+    icon: '<:target:1523776778856824953>',
+    file: 'rank-by-pick.png'
+  },
+  {
+    key: 'banrate',
+    title: '🚫 Ban Rate',
+    icon: '<:prohibited:1523776846553022464>',
+    file: 'rank-by-ban.png'
+  }
 ];
 
 const timeString = new Date().toLocaleString('en-US', {
-weekday: 'long', day: 'numeric',
-month: 'long', hour: '2-digit', minute: '2-digit'
+  weekday: 'long',
+  day: 'numeric',
+  month: 'long',
+  hour: '2-digit',
+  minute: '2-digit'
 });
 
-const payload = {
-username: 'MLBB Rank Tracker',
-avatar_url: 'https://i.pinimg.com/736x/d8/03/70/d803702e747282b84e6bb11addb8d408.jpg',
-flags: 32768,
-attachments: screenshots.map((img, id) => ({ id, filename: img.path })),
-components: [
-{
-type: 17,
-components: [
-{ type: 10, content: `## <:trending:1523775913358266469> MLBB Hero Rank — Mythical Glory+\n-# <:calendar:1523776798918447115> ${timeString}` },
-]
-},
-{
-type: 17,
-components: [
-{ type: 10, content: `### <:target:1523776778856824953> Pick Rate` },
-{ type: 12, items: [{ media: { url: `attachment://${screenshots[2].path}` } }] },
-{ type: 14 },
-{ type: 10, content: `### <:trophy:1523775943792001205> Win Rate` },
-{ type: 12, items: [{ media: { url: `attachment://${screenshots[0].path}` } }] },
-{ type: 14 },
-{ type: 10, content: `### <:prohibited:1523776846553022464> Ban Rate` },
-{ type: 12, items: [{ media: { url: `attachment://${screenshots[1].path}` } }] }
-]
-},
-{
-type: 17,
-components: [
-{ type: 10, content: `-# <:arrowrotate:1523776867675537488> Auto-scraped from [mobilelegends.com](https://www.mobilelegends.com/rank)` }
-]
-}
-]
-};
+async function sendRank(item) {
+  const payload = {
+    username: 'MLBB Rank Tracker',
+    avatar_url: 'https://i.pinimg.com/736x/d8/03/70/d803702e747282b84e6bb11addb8d408.jpg',
+    flags: 32768,
+    attachments: [
+      {
+        id: 0,
+        filename: item.file
+      }
+    ],
+    components: [
+      {
+        type: 17,
+        components: [
+          {
+            type: 10,
+            content: `## ${item.icon} MLBB Hero Rank — Mythical Glory+\n-# <:calendar:1523776798918447115> ${timeString}`
+          },
+          {
+            type: 14
+          },
+          {
+            type: 10,
+            content: `### ${item.icon} ${item.title}`
+          },
+          {
+            type: 12,
+            items: [
+              {
+                media: {
+                  url: `attachment://${item.file}`
+                }
+              }
+            ]
+          },
+          {
+            type: 14
+          },
+          {
+            type: 10,
+            content: `-# <:arrowrotate:1523776867675537488> Auto-scraped from [mobilelegends.com](https://www.mobilelegends.com/rank)`
+          }
+        ]
+      }
+    ]
+  };
 
-const form = new FormData();
-form.append('payload_json', JSON.stringify(payload));
-screenshots.forEach((img, i) => {
-form.append(`files[${i}]`, fs.readFileSync(img.path), {
-filename: img.path,
-contentType: 'image/png'
-});
-console.log(`📎 ${img.label}`);
-});
+  const form = new FormData();
 
-const res = await fetch(
-  `${WEBHOOK_URL}/messages/1523778846955012118?with_components=true`,
-  {
-    method: 'PATCH',
-    body: form.getBuffer(),
-    headers: form.getHeaders()
+  form.append(
+    'payload_json',
+    JSON.stringify(payload)
+  );
+
+  form.append(
+    'files[0]',
+    fs.readFileSync(item.file),
+    {
+      filename: item.file,
+      contentType: 'image/png'
+    }
+  );
+
+  const res = await fetch(
+    `${WEBHOOKS[item.key]}?with_components=true`,
+    {
+      method: 'POST',
+      body: form.getBuffer(),
+      headers: form.getHeaders()
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error(`${item.key}: ${res.status} ${await res.text()}`);
   }
-);
 
+  console.log(`✅ ${item.title}`);
+}
 
-if (!res.ok) throw new Error(`Discord error: ${res.status} — ${await res.text()}`);
-console.log('✅ Sent to Discord!');
+for (const item of data) {
+  await sendRank(item);
+}
