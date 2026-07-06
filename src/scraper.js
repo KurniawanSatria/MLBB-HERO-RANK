@@ -1,50 +1,131 @@
 import puppeteer from 'puppeteer';
+
 const delay = ms => new Promise(r => setTimeout(r, ms));
-const browser = await puppeteer.launch({headless: true, args: ['--no-sandbox', '--disable-setuid-sandbox']});
+
+const browser = await puppeteer.launch({
+  headless: true,
+  args: ['--no-sandbox', '--disable-setuid-sandbox']
+});
+
 const page = await browser.newPage();
-await page.goto('https://www.mobilelegends.com/rank ', { waitUntil: 'networkidle2' });
-await page.setViewport({ width: 1204, height: 789 });
-try { await page.click('.mt-cb-policy-close', { timeout: 5000 }); } catch { }
-try { await page.click('#mt-cb-s', { timeout: 5000 }); } catch { }
-await page.waitForSelector('.mt-list-layout');
-await page.evaluate(() => {
-const dropdown = [...document.querySelectorAll('.mt-dropdown')].find(el => el.textContent.includes('ALL') && el.querySelector('.mt-dropdown-list'));
-if (dropdown) {
-const trigger = dropdown.querySelector('[style*="cursor: pointer"]') || dropdown;
-trigger.click();
+
+await page.setViewport({
+  width: 1204,
+  height: 789
+});
+
+await page.goto('https://www.mobilelegends.com/rank', {
+  waitUntil: 'domcontentloaded'
+});
+
+for (let i = 0; i < 20; i++) {
+  const closeBtn = await page.$('.mt-cb-policy-close');
+  const acceptBtn = await page.$('#mt-cb-s');
+
+  if (closeBtn) {
+    await closeBtn.click().catch(() => {});
+    break;
+  }
+
+  if (acceptBtn) {
+    await acceptBtn.click().catch(() => {});
+    break;
+  }
+
+  await delay(500);
 }
+
+await page.waitForFunction(() => {
+  return !document.querySelector('.mt-cb-policy') &&
+         !document.querySelector('.mt-cb-policy-close');
+}, {
+  timeout: 10000
+}).catch(() => {});
+
+await page.waitForSelector('.mt-list-layout', {
+  visible: true,
+  timeout: 15000
 });
-await delay(1000); 
+
 await page.evaluate(() => {
-const items = [...document.querySelectorAll('.mt-list-item')];
-const target = items.find(el => el.textContent.includes('Mythical Glory+'));
-if (target) target.click();
+  const dropdown = [...document.querySelectorAll('.mt-dropdown')].find(el =>
+    el.textContent.includes('ALL') &&
+    el.querySelector('.mt-dropdown-list')
+  );
+
+  if (!dropdown) return;
+
+  const trigger =
+    dropdown.querySelector('[style*="cursor: pointer"]') ||
+    dropdown;
+
+  trigger.click();
 });
-await delay(1500); 
+
+await page.waitForFunction(() => {
+  return [...document.querySelectorAll('.mt-list-item')]
+    .some(el => el.textContent.includes('Mythical Glory+'));
+}, {
+  timeout: 10000
+});
+
+await page.evaluate(() => {
+  const target = [...document.querySelectorAll('.mt-list-item')]
+    .find(el => el.textContent.includes('Mythical Glory+'));
+
+  target?.click();
+});
+
+await delay(1500);
+
 async function getContainer() {
-const ul = await page.$('.mt-list-layout');
-return await ul.evaluateHandle(e => {
-let current = e;
-for (let i = 0; i < 3; i++) { if (current.parentElement) current = current.parentElement; }
-return current;
-});
+  const ul = await page.waitForSelector('.mt-list-layout', {
+    visible: true
+  });
+
+  return await ul.evaluateHandle(e => {
+    let current = e;
+
+    for (let i = 0; i < 3; i++) {
+      if (current.parentElement) current = current.parentElement;
+    }
+
+    return current;
+  });
 }
+
 async function clickTwice(text) {
-for (let i = 0; i < 2; i++) {
-await page.evaluate(t => {
-const el = [...document.querySelectorAll('span')].find(e => e.textContent.includes(t));
-el?.click();
-}, text);
-await delay(700);
+  for (let i = 0; i < 2; i++) {
+    await page.evaluate(t => {
+      const el = [...document.querySelectorAll('span')]
+        .find(e => e.textContent.includes(t));
+
+      el?.click();
+    }, text);
+
+    await delay(700);
+  }
+
+  await delay(1200);
 }
-await delay(1200);
-}
-let el = await getContainer();
-await el.screenshot({ path: 'rank-by-winrate.png' });
+
+let container = await getContainer();
+await container.screenshot({
+  path: 'rank-by-winrate.png'
+});
+
 await clickTwice('BAN RATE');
-el = await getContainer();
-await el.screenshot({ path: 'rank-by-ban.png' });
+
+container = await getContainer();
+await container.screenshot({
+  path: 'rank-by-ban.png'
+});
+
 await clickTwice('PICK RATE');
-el = await getContainer();
-await el.screenshot({ path: 'rank-by-pick.png' });
+
+container = await getContainer();
+await container.screenshot({
+  path: 'rank-by-pick.png'
+});
+
 await browser.close();
