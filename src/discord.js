@@ -58,7 +58,7 @@ contentType: 'image/png'
 console.log(`📎 ${img.label}`);
 });
 
-const res = await fetch(`${WEBHOOK_URL}?with_components=true`, {
+const res = await fetch(`${WEBHOOK_URL}/messages/1523778846955012118?with_components=true`, {
 method: 'POST',
 body: form.getBuffer(),       
 headers: form.getHeaders()   
