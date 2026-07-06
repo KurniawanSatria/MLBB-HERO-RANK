@@ -58,11 +58,14 @@ contentType: 'image/png'
 console.log(`📎 ${img.label}`);
 });
 
-const res = await fetch(`${WEBHOOK_URL}/messages/1523778846955012118?with_components=true`, {
-method: 'POST',
-body: form.getBuffer(),       
-headers: form.getHeaders()   
-});
+const res = await fetch(
+  `${WEBHOOK_URL}/messages/1523778846955012118?with_components=true`,
+  {
+    method: 'PATCH',
+    body: form.getBuffer(),
+    headers: form.getHeaders()
+  }
+);
 
 
 if (!res.ok) throw new Error(`Discord error: ${res.status} — ${await res.text()}`);
