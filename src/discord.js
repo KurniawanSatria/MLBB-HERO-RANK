@@ -23,34 +23,34 @@ components: [
 {
 type: 17,
 components: [
-{ type: 10, content: `## 🏆 MLBB Hero Rank — Mythical Glory+\n-# 📅 ${timeString}` },
+{ type: 10, content: `## <:trending:1523775913358266469> MLBB Hero Rank — Mythical Glory+\n-# <:calendar:1523776798918447115> ${timeString}` },
 ]
 },
 {
 type: 17,
 components: [
-{ type: 10, content: `### 🎯 Pick Rate` },
+{ type: 10, content: `### <:target:1523776778856824953> Pick Rate` },
 { type: 12, items: [{ media: { url: `attachment://${screenshots[2].path}` } }] }
 ]
 },
 {
 type: 17,
 components: [
-{ type: 10, content: `### 🏅 Win Rate` },
+{ type: 10, content: `### <:trophy:1523775943792001205> Win Rate` },
 { type: 12, items: [{ media: { url: `attachment://${screenshots[0].path}` } }] }
 ]
 },
 {
 type: 17,
 components: [
-{ type: 10, content: `### 🚫 Ban Rate` },
+{ type: 10, content: `### <:prohibited:1523776846553022464> Ban Rate` },
 { type: 12, items: [{ media: { url: `attachment://${screenshots[1].path}` } }] }
 ]
 },
 {
 type: 17,
 components: [
-{ type: 10, content: `-# <a:code:1438255594854289419> Auto-scraped from [mobilelegends.com](https://www.mobilelegends.com/rank)` }
+{ type: 10, content: `-# <:arrowrotate:1523776867675537488> Auto-scraped from [mobilelegends.com](https://www.mobilelegends.com/rank)` }
 ]
 }
 ]
