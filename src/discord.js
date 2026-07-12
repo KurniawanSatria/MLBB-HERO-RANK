@@ -1,5 +1,5 @@
-import fs from 'fs';
-import FormData from 'form-data';
+const fs = require('fs');
+const FormData = require('form-data');
 
 const WEBHOOKS = {
   winrate: process.env.WEBHOOK_WINRATE,
@@ -28,13 +28,7 @@ const data = [
   }
 ];
 
-const timeString = new Date().toLocaleString('en-US', {
-  weekday: 'long',
-  day: 'numeric',
-  month: 'long',
-  hour: '2-digit',
-  minute: '2-digit'
-});
+const timeString = `<t:${Math.floor(Date.now() / 1000)}:F>`;
 
 async function sendRank(item) {
   const payload = {
@@ -73,7 +67,7 @@ async function sendRank(item) {
           },
           {
             type: 10,
-            content: `-# <:arrowrotate:1523776867675537488> Auto-scraped from [mobilelegends.com](https://www.mobilelegends.com/rank)`
+            content: `-# <:arrowrotate:1523776867675537488> data from [mobilelegends.com](https://www.mobilelegends.com/rank)`
           }
         ]
       }
@@ -112,6 +106,8 @@ async function sendRank(item) {
   console.log(`✅ ${item.title}`);
 }
 
-for (const item of data) {
-  await sendRank(item);
-}
+(async () => {
+  for (const item of data) {
+    await sendRank(item);
+  }
+})();
