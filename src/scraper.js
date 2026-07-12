@@ -1,8 +1,6 @@
-const puppeteer = require('puppeteer');
+import puppeteer from 'puppeteer';
 
 const delay = ms => new Promise(r => setTimeout(r, ms));
-
-(async () => {
 
 const browser = await puppeteer.launch({
   headless: true,
@@ -115,5 +113,3 @@ await container.screenshot({
 });
 
 await browser.close();
-
-})();

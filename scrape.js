@@ -1,5 +1,5 @@
-const { chromium } = require("playwright");
-const fs = require("fs");
+import { chromium } from 'playwright';
+import fs from 'fs';
 
 function slugify(name) {
   return name
@@ -9,8 +9,8 @@ function slugify(name) {
     .replace(/[^a-z0-9-]/g, "");
 }
 
-(async () => {
-  const browser = await chromium.launch({
+
+const browser = await chromium.launch({
     headless: false,
   });
 
@@ -175,4 +175,3 @@ while (true) {
   console.log("Done! result.json written.");
 
   await browser.close();
-})();

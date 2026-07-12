@@ -1,5 +1,5 @@
-const fs = require('fs');
-const FormData = require('form-data');
+import fs from 'fs';
+import FormData from 'form-data';
 
 const WEBHOOKS = {
   winrate: process.env.WEBHOOK_WINRATE,
@@ -106,8 +106,6 @@ async function sendRank(item) {
   console.log(`✅ ${item.title}`);
 }
 
-(async () => {
-  for (const item of data) {
-    await sendRank(item);
-  }
-})();
+for (const item of data) {
+  await sendRank(item);
+}
